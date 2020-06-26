@@ -26,6 +26,42 @@ app.get("/api/workouts", (req, res) => {
             res.json(err);
         })
 });
+// Add exercises to a previous workout plan.
+
+app.get("/api/workouts/:id", (req, res) => {
+    db.Workout.update({})
+        .then(dbWorkout => {
+            res.json(dbWorkout);
+        })
+        .catch(err => {
+            res.json(err);
+        })
+});
+
+app.post("/api/workouts/", (req, res) => {
+    db.Workout.create({})
+        .then(dbWorkout => {
+            res.json(dbWorkout);
+        })
+        .catch(err => {
+            res.json(err);
+        })
+});
+
+app.put("/api/workouts/", (req, res) => {
+    db.Workout.update({})
+        .then(dbWorkout => {
+            res.json(dbWorkout);
+        })
+        .catch(err => {
+            res.json(err);
+        })
+});
+
+
+
+
+
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
 });
@@ -33,7 +69,6 @@ app.listen(PORT, () => {
 // When the user loads the page, they should be given the option to create a new workout, 
 // or continue with their last workout.
 
-// Add exercises to a previous workout plan.
 
 //   * Add new exercises to a new workout plan.
 
