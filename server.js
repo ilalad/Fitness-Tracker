@@ -1,23 +1,42 @@
 const express = require("express");
-
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const PORT = process.env.PORT || 3000;
-var path = require("path");
+const PORT = process.env.PORT || 3000
 
 const app = express();
+// middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use(express.static("public"));
+// mongoose connection
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/budget", {
+    useNewUrlParser: true,
+    useFindAndModify: false
+});
 const db = require("./models");
 
+const path = require("path");
 
 // This assignment will require you to create Mongo database with a 
 // Mongoose schema and handle routes with Express.
+
+
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/index.html"));
 })
 
+app.get("/exercise", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/exercise.html"));
+})
+
+app.get("/stats", (req, res) => {
+    res.sendFile(path.join(__dirname, "./public/stats.html"));
+})
+
+
 app.get("/api/workouts", (req, res) => {
+    // console.log("req.body from/api/workouts", req.body);
     db.Workout.find({})
         .then(dbWorkout => {
             res.json(dbWorkout);
@@ -38,7 +57,10 @@ app.get("/api/workouts/:id", (req, res) => {
         })
 });
 
-app.post("/api/workouts/", (req, res) => {
+
+
+app.put("/api/workouts/:id", (req, res) => {
+    console.log("req.body from PUT at /api/workouts", req.body);
     db.Workout.create({})
         .then(dbWorkout => {
             res.json(dbWorkout);
@@ -48,8 +70,8 @@ app.post("/api/workouts/", (req, res) => {
         })
 });
 
-app.put("/api/workouts/", (req, res) => {
-    db.Workout.update({})
+app.post("/api/workouts/", (req, res) => {
+    db.Workout.create(req.body)
         .then(dbWorkout => {
             res.json(dbWorkout);
         })
