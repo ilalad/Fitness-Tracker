@@ -21,15 +21,15 @@ const path = require("path");
 // This assignment will require you to create Mongo database with a 
 // Mongoose schema and handle routes with Express.
 
-
+// home route
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/index.html"));
 })
-
+// exercise route
 app.get("/exercise", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/exercise.html"));
 })
-
+// stats route
 app.get("/stats", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/stats.html"));
 })
@@ -38,32 +38,22 @@ app.get("/stats", (req, res) => {
 app.get("/api/workouts", (req, res) => {
     // console.log("req.body from/api/workouts", req.body);
     db.Workout.find({})
-        .then(dbWorkout => {
-            res.json(dbWorkout);
+        .then(workout => {
+            res.json(workout);
         })
         .catch(err => {
             res.json(err);
         })
 });
 // Add exercises to a previous workout plan.
-
-app.get("/api/workouts/:id", (req, res) => {
-    db.Workout.update({})
-        .then(dbWorkout => {
-            res.json(dbWorkout);
-        })
-        .catch(err => {
-            res.json(err);
-        })
-});
-
-
+//   * Add new exercises to a new workout plan.
+// When the user loads the page, they should be given the option to create a new workout, 
+// or continue with their last workout.
 
 app.put("/api/workouts/:id", (req, res) => {
-    console.log("req.body from PUT at /api/workouts", req.body);
-    db.Workout.create({})
-        .then(dbWorkout => {
-            res.json(dbWorkout);
+    db.Workout.update({})
+        .then(workout => {
+            res.json(workout);
         })
         .catch(err => {
             res.json(err);
@@ -72,8 +62,20 @@ app.put("/api/workouts/:id", (req, res) => {
 
 app.post("/api/workouts/", (req, res) => {
     db.Workout.create(req.body)
-        .then(dbWorkout => {
-            res.json(dbWorkout);
+        .then(workout => {
+            res.json(workout);
+        })
+        .catch(err => {
+            res.json(err);
+        })
+});
+
+//   * View multiple the combined weight of multiple exercises on the `stats` page.
+
+app.get("/api/workouts/range", (req, res) => {
+    db.Workout.find({})
+        .then(workout => {
+            res.json(workout);
         })
         .catch(err => {
             res.json(err);
@@ -83,15 +85,6 @@ app.post("/api/workouts/", (req, res) => {
 
 
 
-
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);
 });
-
-// When the user loads the page, they should be given the option to create a new workout, 
-// or continue with their last workout.
-
-
-//   * Add new exercises to a new workout plan.
-
-//   * View multiple the combined weight of multiple exercises on the `stats` page.

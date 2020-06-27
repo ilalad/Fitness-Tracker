@@ -12,6 +12,8 @@ The user is able to:
 
   * View multiple the combined weight of multiple exercises on the `stats` page.
 
+Click on the link below:
+https://fitness2020tracker.herokuapp.com/?id=5ef6bd7c2993ac0017598503
 
 
 
